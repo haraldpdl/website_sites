@@ -1,0 +1,97 @@
+<!doctype html>
+<html {ifvalue html_tags}{raw}html_tags{raw}{ifvalue}>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset={value}html_character_set{value}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+
+<title>{value}html_page_title{value}</title>
+
+<base href="{value}html_base_href{value}">
+
+<link rel="icon" type="image/png" href="{publiclink}images/favicon.ico{publiclink}">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,500,400italic,700,700italic">
+<link rel="stylesheet" href="{publiclink}external/mdl/material.min.css{publiclink}">
+<link rel="stylesheet" href="{publiclink}external/mdl/mdl-selectfield/mdl-selectfield.min.css{publiclink}">
+<link rel="stylesheet" href="{publiclink}external/dialog-polyfill-0.4.3/dialog-polyfill.css{publiclink}">
+<link rel="stylesheet" href="public/external/jquery/toastr/2.1.2/toastr.min.css">
+
+{ifvalue html_header_tags}
+  {raw}html_header_tags{raw}
+{ifvalue}
+
+</head>
+<body>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header id="mainHeader" class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title"><a href="{link}Index{link}" class="mdl-color-text--white">{lang}page_title{lang}</a></span>
+
+      <div class="mdl-layout-spacer"></div>
+
+      <nav class="mdl-navigation">
+        <button type="button" id="demo-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+          <i class="material-icons">person</i>
+        </button>
+
+        <ul id="userMenu" class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="demo-menu-lower-right"></ul>
+      </nav>
+    </div>
+
+{widget}breadcrumb_nav{widget}
+
+  </header>
+
+  <div class="mdl-layout__drawer">
+    <span class="mdl-layout-title">{lang}sidebar_title{lang}</span>
+
+    <nav class="mdl-navigation">
+      <div class="mdl-selectfield mdl-js-selectfield">
+        <select class="mdl-selectfield__select" id="countriesList">
+          <option value="all">{lang}sidebar_all_countries{lang}</option>
+        </select>
+      </div>
+
+      <div id="categoriesList"></div>
+    </nav>
+  </div>
+
+  <main class="mdl-layout__content">
+    <div class="page-content">
+
+{import}{value}html_page_contents_file{value}{import}
+
+      <footer class="mdl-mega-footer">
+        <div class="mdl-mega-footer__top-section">
+          <div class="mdl-logo">{lang}copyright_footer{lang}</div>
+        </div>
+
+        <div class="mdl-mega-footer__middle-section">
+          <a href="https://www.oscommerce.com/newsletter/subscribe" title="{lang}social_newsletter_title{lang}">{lang}social_newsletter{lang}</a>
+          <a href="https://plus.google.com/+osCommerce" rel="publisher" target="_blank" title="{lang}social_googleplus_title{lang}">{lang}social_googleplus{lang}</a>
+          <a href="https://twitter.com/osCommerce" target="_blank" title="{lang}social_twitter_title{lang}">{lang}social_twitter{lang}</a>
+          <a href="https://www.facebook.com/pages/osCommerce/33387373079" target="_blank" title="{lang}social_facebook_title{lang}">{lang}social_facebook{lang}</a>
+          <a href="https://github.com/osCommerce" target="_blank" title="{lang}social_github_title{lang}">{lang}social_github{lang}</a>
+        </div>
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script src="{publiclink}external/jquery-3.0.0-beta1.min.js{publiclink}"></script>
+<script src="{publiclink}external/mustache.min.js{publiclink}"></script>
+<script src="{publiclink}external/mdl/material.min.js{publiclink}"></script>
+<script src="{publiclink}external/mdl/mdl-selectfield/mdl-selectfield.min.js{publiclink}"></script>
+<script src="{publiclink}external/dialog-polyfill-0.4.3/dialog-polyfill.js{publiclink}"></script>
+<script src="public/external/jquery/toastr/2.1.2/toastr.min.js"></script>
+
+{raw}js_block{raw}
+
+{raw}app_js_ext{raw}
+
+</body>
+</html>

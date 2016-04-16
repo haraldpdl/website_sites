@@ -1,0 +1,29 @@
+<dialog id="dialogModerateSite" class="mdl-dialog" style="min-height: 90%; min-width: 90%;">
+  <div class="mdl-grid osc-dialog-prepare">
+    <div class="mdl-cell mdl-cell--12-col">
+      <p>{lang}dialog_loading{lang}</p>
+
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    </div>
+  </div>
+
+  <div class="mdl-grid osc-dialog-content">
+    <div class="mdl-cell mdl-cell--8-col-desktop mdl-cell--2-offset-desktop mdl-cell--12-col-phone">
+      <div class="mdl-card" style="width: 100%;">
+        <div class="mdl-card__title mdl-color-text--white">
+          <h2 class="mdl-card__title-text osc-truncate"></h2>
+        </div>
+
+        <div class="mdl-card__media mdl-color--white"></div>
+
+        <div class="mdl-dialog__actions" style="display: flex; box-sizing: border-box; align-items: center; width: 100%;">
+          <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent mdl-button--raised" data-action="requeue">{lang}dialog_button_requeue{lang}</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent mdl-button--raised" data-action="disable">{lang}dialog_button_disable{lang}</button>
+          <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" data-action="close">{lang}dialog_button_cancel{lang}</button>
+          <div id="dialogModerateSiteSpinner" class="mdl-spinner mdl-js-spinner"></div>
+          <div class="mdl-layout-spacer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>

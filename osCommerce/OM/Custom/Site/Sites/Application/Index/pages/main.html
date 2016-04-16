@@ -1,0 +1,13 @@
+<div id="liveSitesGrid" class="mdl-grid" style="justify-content: center;"></div>
+
+<div class="mdl-typography--text-center" style="padding-bottom: 25px;">
+  <button type="button" id="loadMoreButton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored" style="display: none;">{lang}button_load_more{lang}</button>
+  <div id="loadMoreSpinner" class="mdl-spinner mdl-js-spinner is-active"></div>
+</div>
+
+<button type="button" id="addSiteButton" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"><i class="material-icons">add</i></button>
+
+{mustache cardTemplate}{raw}main_site_card_file{raw}{mustache}
+
+{import}{raw}main_dialog_site_file{raw}{import}
+{import}{raw}main_dialog_moderate_site_file{raw}{import}
