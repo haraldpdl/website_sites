@@ -26,7 +26,9 @@ class GetListing
             'RPC',
             OSCOM::getSite(),
             OSCOM::getSiteApplication(),
-            'GetListing'
+            'GetListing',
+            'page',
+            'country'
         ];
 
         $req_codes = [];
