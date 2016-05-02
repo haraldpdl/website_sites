@@ -133,7 +133,8 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
             'def' => $OSCOM_Language->getAllDefinitions('js_'), // language definitions
             'a' => [ // namespace for applications
                 $OSCOM_Template->getValue('current_site_application') => []
-            ]
+            ],
+            'urlSiteWebsite' => OSCOM::getBaseUrl('Website')
         ];
 
         $OSCOM_Template->addHtmlHeaderTag('<script>var OSCOM = ' . json_encode($siteConfigJs) . ';</script>');

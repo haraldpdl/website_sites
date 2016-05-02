@@ -9,42 +9,6 @@
 
 'use strict';
 
-OSCOM.a.Index.cardBackgroundColors = [
-    'red',
-    'red-900',
-    'pink',
-    'pink-900',
-    'purple',
-    'purple-900',
-    'deep-purple',
-    'indigo',
-    'indigo-900',
-    'blue',
-    'light-blue',
-    'cyan',
-    'teal',
-    'green',
-    'green-900',
-    'light-green',
-    'lime',
-    'yellow',
-    'amber',
-    'orange',
-    'orange-900',
-    'deep-orange',
-    'brown',
-    'brown-900',
-    'blue-grey',
-    'blue-grey-900'
-];
-
-OSCOM.a.Index.getCardBackgroundColor = function(siteTitle) {
-    var pos = ((siteTitle.charAt(0).toLowerCase()).charCodeAt(0) - 97) + 1;
-    var g = (pos > 0 && pos < 27) ? pos : 5;
-
-    return this.cardBackgroundColors[g - 1];
-};
-
 OSCOM.a.Index.isGettingListing = false;
 OSCOM.a.Index.listingCurrentPage = 1;
 OSCOM.a.Index.siteCounter = 0;
@@ -129,7 +93,7 @@ OSCOM.a.Index.showListing = function(page) {
                 'id': OSCOM.a.Index.siteCounter,
                 'publicId': value.public_id,
                 'pageSet': requestedPage,
-                'colorClass': 'mdl-color--' + OSCOM.a.Index.getCardBackgroundColor(value.title),
+                'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(value.title),
                 'title': OSCOM.escapeHtml(value.title),
                 'url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Go': value.public_id})),
                 'img_src': OSCOM.siteImagePreviewBase + value.round_id + '/' + value.public_id + '.png',

@@ -10,6 +10,40 @@
 'use strict';
 
 $.extend(OSCOM, {
+    cardBackgroundColors: [
+        'red',
+        'red-900',
+        'pink',
+        'pink-900',
+        'purple',
+        'purple-900',
+        'deep-purple',
+        'indigo',
+        'indigo-900',
+        'blue',
+        'light-blue',
+        'cyan',
+        'teal',
+        'green',
+        'green-900',
+        'light-green',
+        'lime',
+        'yellow',
+        'amber',
+        'orange',
+        'orange-900',
+        'deep-orange',
+        'brown',
+        'brown-900',
+        'blue-grey',
+        'blue-grey-900'
+    ],
+    getCardBackgroundColor: function(siteTitle) {
+        var pos = ((siteTitle.charAt(0).toLowerCase()).charCodeAt(0) - 97) + 1;
+        var g = (pos > 0 && pos < 27) ? pos : 5;
+
+        return this.cardBackgroundColors[g - 1];
+    },
     generateUrl: function(exclude, parameters, base) {
         if (base === undefined) {
             base = this.urlBase;

@@ -1,4 +1,8 @@
+showcase_html_title = Showcase | Live Sites | osCommerce
+
 button_load_more = Load More
+
+breadcrumb_showcase = Showcase
 
 dialog_loading = Loading, please wait..
 

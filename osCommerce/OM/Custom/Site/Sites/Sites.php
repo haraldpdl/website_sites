@@ -61,6 +61,50 @@ class Sites
         return $result;
     }
 
+    public static function getShowcaseListing(string $category = null, string $partner = null): array
+    {
+        $params = [];
+
+        if (isset($category)) {
+            $params['category'] = $category;
+        }
+
+        if (isset($partner)) {
+            $params['partner'] = $partner;
+        }
+
+        $result = OSCOM::callDB('Sites\GetShowcaseListing', $params, 'Site');
+
+        $listing = [];
+
+        foreach ($result as $v) {
+            if (!isset($listing[$v['partner_code']])) {
+                $listing[$v['partner_code']] = [
+                    'code' => $v['partner_code'],
+                    'title' => $v['partner_title'],
+                    'category_code' => $v['partner_category_code'],
+                    'category_title' => $v['partner_category_title'],
+                    'sites' => []
+                ];
+            }
+
+            $listing[$v['partner_code']]['sites'][] = [
+                'public_id' => $v['public_id'],
+                'title' => $v['title'],
+                'round_id' => round((int)$v['id'], -3) / 1000,
+                'parent_category_name' => $v['parent_category_name'],
+                'category_name' => $v['category_name'],
+                'country_code' => $v['country_code'],
+                'country_name' => $v['country_name'],
+                'total_likes' => $v['total_likes']
+            ];
+        }
+
+        $listing = array_values($listing); // replace array keys with index integers
+
+        return $listing;
+    }
+
     public static function getCategories(int $category_id = null, string $country = null): array
     {
         $OSCOM_CategoryTree = Registry::get('CategoryTree');

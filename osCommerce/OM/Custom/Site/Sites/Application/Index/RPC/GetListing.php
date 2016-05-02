@@ -13,8 +13,6 @@ use osCommerce\OM\Core\{
     OSCOM
 };
 
-use osCommerce\OM\Core\Site\RPC\Controller as RPC;
-
 use osCommerce\OM\Core\Site\Sites\Sites;
 
 class GetListing

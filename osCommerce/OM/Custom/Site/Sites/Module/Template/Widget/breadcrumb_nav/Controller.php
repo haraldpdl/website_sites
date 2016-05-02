@@ -25,6 +25,10 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         $result = '';
         $breadcrumb = [];
 
+        if ($OSCOM_Template->valueExists('breadcrumb_path')) {
+            $breadcrumb = $OSCOM_Template->getValue('breadcrumb_path');
+        }
+
         $country = $OSCOM_Template->getValue('country');
 
         if (!empty($country)) {
@@ -48,7 +52,7 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         }
 
         if (!empty($breadcrumb)) {
-            $OSCOM_Template->setValue('breadcrumb_path', $breadcrumb);
+            $OSCOM_Template->setValue('breadcrumb_path', $breadcrumb, true);
 
             $result = file_get_contents(OSCOM::BASE_DIRECTORY . 'Custom/Site/Sites/Module/Template/Widget/breadcrumb_nav/pages/main.html');
 

@@ -4,6 +4,7 @@ html_page_title = Live Sites | osCommerce
 page_title = osCommerce Live Sites
 
 sidebar_title = Categories
+sidebar_showcase = Showcase
 sidebar_all_countries = All Countries
 
 js_navbutton_account_log_in = Log In

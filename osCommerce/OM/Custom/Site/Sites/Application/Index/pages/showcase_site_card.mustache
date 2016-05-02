@@ -1,0 +1,29 @@
+{{#partners}}
+
+<h2><a href="{{url}}">{{title}}</a> <small>(<a href="{{category_url}}">{{category_title}}</a>)</small></h2>
+
+<div class="mdl-grid">
+
+{{#sites}}
+  <div class="osc-card mdl-card mdl-shadow--2dp" data-public-id="{{publicId}}">
+    <div class="mdl-card__title {{colorClass}} mdl-color-text--white">
+      <h2 class="mdl-card__title-text osc-truncate">{{title}}</h2>
+    </div>
+
+    <div class="mdl-card__media mdl-color--white">
+      <a href="{{url}}" rel="nofollow noopener noreferrer" target="_blank"><img src="{{img_src}}"></a>
+    </div>
+
+    <div class="mdl-card__supporting-text" style="display: flex; box-sizing: border-box; align-items: center; width: 100%;">
+      <a href="{{parent_category_url}}" class="osc-truncate">{{parent_category_name}}</a>&nbsp;&gt;&nbsp;
+      <a href="{{category_url}}" class="osc-truncate">{{category_name}}</a>&nbsp;{{lang_in_country}}&nbsp;
+      <a href="{{country_url}}" class="osc-truncate">{{country_name}}</a>
+      <div class="mdl-layout-spacer"></div>
+      {{! total_likes <i class="material-icons">favorite</i> <!-- add css class mdl-color-text--red for red icon //--> }}
+    </div>
+  </div>
+{{/sites}}
+
+</div>
+
+{{/partners}}

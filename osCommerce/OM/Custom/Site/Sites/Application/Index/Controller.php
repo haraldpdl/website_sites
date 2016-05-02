@@ -32,12 +32,14 @@ EOT;
             $OSCOM_Template->addJavascriptBlock($js);
         }
 
-        if ((OSCOM::getConfig('use_minified_resources') === 'true') && file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Sites/Application/Index/main.min.js')) {
-            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main.min.js');
-        } else {
-            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main.js');
-            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main-dialog_submit_site.js');
-            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main-dialog_moderate_site.js');
+        if (!in_array('Showcase', $this->getRequestedActions())) {
+            if ((OSCOM::getConfig('use_minified_resources') === 'true') && file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Sites/Application/Index/main.min.js')) {
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main.min.js');
+            } else {
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main.js');
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main-dialog_submit_site.js');
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/main-dialog_moderate_site.js');
+            }
         }
     }
 }
