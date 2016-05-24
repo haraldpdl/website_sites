@@ -63,64 +63,28 @@ $.extend(OSCOM, {
 
         return base + '?' + $.param(parameters).replace(/\=\&/g, '&').replace(/=$/, '');
     },
-    escapeHtml: function(string, quoteStyle, charset, doubleEncode) { // http://phpjs.org/functions/htmlspecialchars/ (github Oct 18 2015)
-        var optTemp = 0,
-            i = 0,
-            noquotes = false;
-
-        if (typeof quoteStyle === 'undefined' || quoteStyle === null) {
-            quoteStyle = 2;
-        }
-
-        string = string || '';
-        string = string.toString();
-
-        if (doubleEncode !== false) {
-            // Put this first to avoid double-encoding
-            string = string.replace(/&/g, '&amp;');
-        }
-
-        string = string.replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-
-        var OPTS = {
-            'ENT_NOQUOTES': 0,
-            'ENT_HTML_QUOTE_SINGLE': 1,
-            'ENT_HTML_QUOTE_DOUBLE': 2,
-            'ENT_COMPAT': 2,
-            'ENT_QUOTES': 3,
-            'ENT_IGNORE': 4
+    escapeHtml: function(string, strict) {
+        var map = {
+            '&': '&amp;',
+            '"': '&quot;',
+            '<': '&lt;',
+            '>': '&gt;'
         };
 
-        if (quoteStyle === 0) {
-            noquotes = true;
+        if (strict === true) {
+            map['\''] = '&#039;';
         }
 
-        if (typeof quoteStyle !== 'number') {
-            // Allow for a single string or an array of string flags
-            quoteStyle = [].concat(quoteStyle);
-
-            for (i = 0; i < quoteStyle.length; i += 1) {
-                // Resolve string input to bitwise e.g. 'ENT_IGNORE' becomes 4
-                if (OPTS[quoteStyle[i]] === 0) {
-                    noquotes = true;
-                } else if (OPTS[quoteStyle[i]]) {
-                    optTemp = optTemp | OPTS[quoteStyle[i]];
-                }
-            }
-
-            quoteStyle = optTemp;
+        return this.strReplace(string, map);
+    },
+    strReplace: function(string, map) {
+        if (typeof map !== 'object') {
+            return string;
         }
 
-        if (quoteStyle & OPTS.ENT_HTML_QUOTE_SINGLE) {
-            string = string.replace(/'/g, '&#039;');
-        }
-
-        if (!noquotes) {
-            string = string.replace(/"/g, '&quot;');
-        }
-
-        return string;
+        return string.replace(new RegExp(Object.keys(map).join('|'), 'g'), function(m) {
+            return map[m];
+        });
     }
 });
 
