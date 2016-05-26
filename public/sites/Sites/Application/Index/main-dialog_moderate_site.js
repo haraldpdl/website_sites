@@ -88,7 +88,7 @@ OSCOM.a.Index.showModerateSiteDialog = function(action, publicId, page) {
             $('#dialogModerateSite').data('publicId', data.site.public_id);
             $('#dialogModerateSite').data('page', page);
 
-            $('#dialogModerateSite .mdl-card__title').addClass('mdl-color--' + OSCOM.a.Index.getCardBackgroundColor(data.site.title));
+            $('#dialogModerateSite .mdl-card__title').addClass('mdl-color--' + OSCOM.getCardBackgroundColor(data.site.title));
             $('#dialogModerateSite .mdl-card__title-text').html(OSCOM.escapeHtml(data.site.title));
 
             $('<a>', {
@@ -236,7 +236,7 @@ $('#dialogModerateSite .mdl-dialog__actions button:not([data-action="close"])').
         $('#dialogModerateSite .mdl-dialog__actions button[data-action="close"]').show();
         $('#dialogModerateSite .mdl-dialog__actions button[data-action="' + action + '"]').show();
 
-        if (response.hasOwnProperty('error')) {
+        if ((typeof response !== 'undefined') && response.hasOwnProperty('error')) {
             switch (response.error) {
             case 100:
                 OSCOM.a.Index.dialogModerateSite.close();

@@ -1,11 +1,20 @@
-{{#partners}}
-
-<h2><a href="{{url}}">{{title}}</a> <small>(<a href="{{category_url}}">{{category_title}}</a>)</small></h2>
-
 <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col mdl-card">
+    <div class="mdl-card__supporting-text">
+      <h4><a href="{{partner_url}}">{{partner_title}}</a></h4>
+
+      {{partner_desc}}
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button" href="{{partner_url}}" target="_blank">{{lang_visit_partner_website}}</a>
+    </div>
+  </div>
+</div>
+
+<div class="mdl-grid" style="justify-content: center;">
 
 {{#sites}}
-  <div class="osc-card mdl-card mdl-shadow--2dp" data-public-id="{{publicId}}">
+  <div class="osc-card mdl-card mdl-shadow--2dp">
     <div class="mdl-card__title {{colorClass}} mdl-color-text--white">
       <h2 class="mdl-card__title-text osc-truncate">{{title}}</h2>
     </div>
@@ -25,5 +34,3 @@
 {{/sites}}
 
 </div>
-
-{{/partners}}

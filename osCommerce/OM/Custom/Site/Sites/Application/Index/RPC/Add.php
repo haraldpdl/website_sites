@@ -30,6 +30,8 @@ class Add
                 $result['error'] = 300;
             } elseif (OSCOM::callDB('Sites\CanUserAddNewSite', [ 'user_id' => $_SESSION['Website']['Account']['id'] ], 'Site') !== true) {
                 $result['error'] = 100;
+            } elseif (count(Sites::getUserListing()) >= 24) {
+                $result['error'] = 700;
             } else {
                 if (empty($name)) {
                     $result['fields'][] = 'name';

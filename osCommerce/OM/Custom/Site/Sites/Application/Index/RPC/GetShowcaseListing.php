@@ -18,8 +18,7 @@ class GetShowcaseListing
 {
     public static function execute()
     {
-        $category = null;
-        $partner = null;
+        $result = null;
 
         if (isset($_GET['category']) && !empty($_GET['category'])) {
             $req_category = HTML::sanitize(strtolower(basename($_GET['category'])));
@@ -31,13 +30,19 @@ class GetShowcaseListing
                     $req_partner = HTML::sanitize(strtolower(basename($_GET['partner'])));
 
                     if (Partner::exists($req_partner, $req_category)) {
-                        $partner = Partner::get($req_partner, 'code');
+                        $partner = Partner::get($req_partner);
+
+                        $result = [
+                            'partner_code' => $partner['code'],
+                            'partner_title' => $partner['title'],
+                            'partner_desc' => $partner['desc_short'],
+                            'partner_url' => $partner['url'],
+                            'sites' => Sites::getShowcaseListing($partner['code'])
+                        ];
                     }
                 }
             }
         }
-
-        $result = Sites::getShowcaseListing($category, $partner);
 
         echo json_encode($result);
     }

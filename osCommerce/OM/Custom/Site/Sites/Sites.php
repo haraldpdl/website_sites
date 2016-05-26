@@ -61,7 +61,7 @@ class Sites
         return $result;
     }
 
-    public static function getShowcaseListing(string $category = null, string $partner = null): array
+    public static function getShowcasePartners(string $category = null): array
     {
         $params = [];
 
@@ -69,40 +69,33 @@ class Sites
             $params['category'] = $category;
         }
 
-        if (isset($partner)) {
-            $params['partner'] = $partner;
+        $result = OSCOM::callDB('Sites\GetShowcasePartners', $params, 'Site');
+
+        foreach ($result as $k => $v) {
+            $result[$k]['site_round_id'] = round((int)$v['site_id'], -3) / 1000;
+
+            unset($result[$k]['site_id']);
         }
+
+        return $result;
+    }
+
+    public static function getShowcaseListing(string $partner): array
+    {
+        $params = [
+            'partner' => $partner
+        ];
 
         $result = OSCOM::callDB('Sites\GetShowcaseListing', $params, 'Site');
 
-        $listing = [];
+        foreach ($result as $k => $v) {
+            $result[$k]['round_id'] = round((int)$v['id'], -3) / 1000;
 
-        foreach ($result as $v) {
-            if (!isset($listing[$v['partner_code']])) {
-                $listing[$v['partner_code']] = [
-                    'code' => $v['partner_code'],
-                    'title' => $v['partner_title'],
-                    'category_code' => $v['partner_category_code'],
-                    'category_title' => $v['partner_category_title'],
-                    'sites' => []
-                ];
-            }
-
-            $listing[$v['partner_code']]['sites'][] = [
-                'public_id' => $v['public_id'],
-                'title' => $v['title'],
-                'round_id' => round((int)$v['id'], -3) / 1000,
-                'parent_category_name' => $v['parent_category_name'],
-                'category_name' => $v['category_name'],
-                'country_code' => $v['country_code'],
-                'country_name' => $v['country_name'],
-                'total_likes' => $v['total_likes']
-            ];
+            unset($result[$k]['id']);
         }
 
-        $listing = array_values($listing); // replace array keys with index integers
+        return $result;
 
-        return $listing;
     }
 
     public static function getCategories(int $category_id = null, string $country = null): array
@@ -364,6 +357,7 @@ class Sites
             Cache::clear('sites-listing');
             Cache::clear('sites-countries');
             Cache::clear('sites-categories');
+            Cache::clear('sites-showcase');
 
             $diff = array_diff_assoc($data, $site);
 

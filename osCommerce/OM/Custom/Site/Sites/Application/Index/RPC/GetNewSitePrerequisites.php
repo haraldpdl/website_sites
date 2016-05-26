@@ -35,32 +35,36 @@ class GetNewSitePrerequisites
                     'user_id' => $_SESSION['Website']['Account']['id']
                 ];
 
-                if (OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site') !== true) {
-                    $result['error'] = 100;
-                } else {
-                    foreach ($OSCOM_CategoryTree->getChildren(0) as $p) {
-                        $parent = [
-                            'code' => $p['code'],
-                            'title' => $p['title'],
-                            'children' => []
-                        ];
-
-                        foreach ($OSCOM_CategoryTree->getChildren($p['id']) as $c) {
-                            $parent['children'][] = [
-                                'code' => $c['code'],
-                                'title' => $c['title']
+                if (OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site')) {
+                    if (count(Sites::getUserListing()) < 24) {
+                        foreach ($OSCOM_CategoryTree->getChildren(0) as $p) {
+                            $parent = [
+                                'code' => $p['code'],
+                                'title' => $p['title'],
+                                'children' => []
                             ];
+
+                            foreach ($OSCOM_CategoryTree->getChildren($p['id']) as $c) {
+                                $parent['children'][] = [
+                                    'code' => $c['code'],
+                                    'title' => $c['title']
+                                ];
+                            }
+
+                            $result['categories'][] = $parent;
                         }
 
-                        $result['categories'][] = $parent;
+                        foreach (Sites::getCountries(-1) as $s) {
+                            $result['countries'][] = [
+                                'code' => $s['code'],
+                                'title' => $s['title']
+                            ];
+                        }
+                    } else {
+                        $result['error'] = 400;
                     }
-
-                    foreach (Sites::getCountries(-1) as $s) {
-                        $result['countries'][] = [
-                            'code' => $s['code'],
-                            'title' => $s['title']
-                        ];
-                    }
+                } else {
+                    $result['error'] = 100;
                 }
             }
         } else {

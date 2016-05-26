@@ -1,0 +1,23 @@
+<div class="mdl-grid" style="justify-content: center;">
+
+{{#partners}}
+  <div class="osc-card mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title {{colorClass}} mdl-color-text--white">
+      <h2 class="mdl-card__title-text osc-truncate">{{title}}</h2>
+      <div class="mdl-layout-spacer"></div>
+      ({{total_sites}}&nbsp;{{total_sites_label}})
+    </div>
+
+    <div class="mdl-card__media mdl-color--white">
+      <a href="{{url}}"><img src="{{img_src}}"></a>
+    </div>
+
+    <div class="mdl-card__supporting-text" style="display: flex; box-sizing: border-box; align-items: center; width: 100%;">
+      <a href="{{url}}" class="osc-truncate">{{title}}</a>
+      <div class="mdl-layout-spacer"></div>
+      <a href="{{category_url}}" class="osc-truncate mdl-color-text--blue-grey-400">({{category_title}})</a>
+    </div>
+  </div>
+{{/partners}}
+
+</div>

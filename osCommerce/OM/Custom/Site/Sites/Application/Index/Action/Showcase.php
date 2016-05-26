@@ -31,7 +31,7 @@ class Showcase
 
         $breadcrumb[] = [
             'title' => OSCOM::getDef('breadcrumb_showcase'),
-            'link' => OSCOM::getLink(null, null, 'Showcase')
+            'link' => OSCOM::getLink(null, 'Index', 'Showcase')
         ];
 
         $req = array_slice(array_keys($_GET), array_search('Showcase', array_keys($_GET)));
@@ -44,7 +44,7 @@ class Showcase
 
                 $breadcrumb[] = [
                     'title' => $category['title'],
-                    'link' => OSCOM::getLink(null, null, 'Showcase&' . $category['code'])
+                    'link' => OSCOM::getLink(null, 'Index', 'Showcase&' . $category['code'])
                 ];
 
                 $OSCOM_Template->addJavascriptBlock('OSCOM.a.Index.currentShowcaseCategory = "' . $category['code'] . '";');
@@ -57,7 +57,7 @@ class Showcase
 
                         $breadcrumb[] = [
                             'title' => $partner['title'],
-                            'link' => OSCOM::getLink(null, null, 'Showcase&' . $category['code'] . '&' . $partner['code'])
+                            'link' => OSCOM::getLink(null, 'Index', 'Showcase&' . $category['code'] . '&' . $partner['code'])
                         ];
 
                         $OSCOM_Template->addJavascriptBlock('OSCOM.a.Index.currentShowcasePartner = "' . $partner['code'] . '";');
@@ -75,6 +75,8 @@ class Showcase
             $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/showcase.min.js');
         } else {
             $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/showcase.js');
+            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/showcase-listing.js');
+            $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/showcase-partners.js');
         }
     }
 }

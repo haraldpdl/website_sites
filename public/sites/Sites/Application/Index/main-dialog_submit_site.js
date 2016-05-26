@@ -138,6 +138,10 @@ OSCOM.a.Index.showSiteDialog = function() {
                 });
                 break;
 
+            case 400:
+                toastr.error(OSCOM.def.js_error_site_limit);
+                break;
+
             default:
                 toastr.error(OSCOM.def.js_error_general);
             }
@@ -327,6 +331,13 @@ $('#formAddSite').submit(function(event) {
                     toastr.error(OSCOM.def.js_error_url_not_accessible, null, {
                         target: '#dialog'
                     });
+
+                    break;
+
+                case 700:
+                    OSCOM.a.Index.dialogSite.close();
+
+                    toastr.error(OSCOM.def.js_error_site_limit);
 
                     break;
 

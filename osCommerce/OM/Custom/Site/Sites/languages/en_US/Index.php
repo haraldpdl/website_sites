@@ -26,6 +26,11 @@ dialog_button_disable = Disable
 dialog_button_requeue = Requeue
 dialog_button_save = Save
 
+js_sites_plural = sites
+js_sites_single = site
+
+js_visit_partner_website = Visit :partner Website
+
 js_site_card_in_country = in
 
 js_site_card_admin_disable = Disable
@@ -35,6 +40,7 @@ js_mod_success = The requested action was performed successfully!
 
 js_error_general = The action could not be performed at this time. Please try again.
 js_error_daily_limit = A limit of one new site addition is allowed every 24 hours. Please add the site again tomorrow, thanks!
+js_error_site_limit = A maximum of 24 site entries are allowed. Please organize the entries in your Account and try again.
 js_error_login_required = Please log in and try again.
 js_error_add_site_security_token_integrity = The integrity of the submission could not be verified. Please reload the page and try again.<br><br><a href="{link}||Add{link}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Reload Page</a>
 js_error_all_fields_required = All fields are required. Please fill in all fields and try again.
