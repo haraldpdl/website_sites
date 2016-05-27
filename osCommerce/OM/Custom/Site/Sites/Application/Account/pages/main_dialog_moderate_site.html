@@ -1,0 +1,21 @@
+<dialog id="dialogModerateSite" class="mdl-dialog" style="width: 35vw; top: 10%;">
+  <div class="osc-dialog-prepare">
+    <div class="mdl-dialog__content">
+      <p>{lang}dialog_loading{lang}</p>
+
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate" style="width: 100%;"></div>
+    </div>
+  </div>
+
+  <div class="osc-dialog-content">
+    <h4 class="mdl-dialog__title osc-truncate"></h4>
+
+    <div class="mdl-dialog__content"></div>
+
+    <div class="mdl-dialog__actions">
+      <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--accent mdl-button--raised" data-action="remove">{lang}dialog_button_remove{lang}</button>
+      <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored" data-action="close">{lang}dialog_button_cancel{lang}</button>
+      <div id="dialogModerateSiteSpinner" class="mdl-spinner mdl-js-spinner"></div>
+    </div>
+  </div>
+</dialog>

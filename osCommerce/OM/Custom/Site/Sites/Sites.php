@@ -95,7 +95,35 @@ class Sites
         }
 
         return $result;
+    }
 
+    public static function getUserListing(int $id = null, bool $only_public = true)
+    {
+        if (!isset($id)) {
+            $id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $data = [
+            'user_id' => $id
+        ];
+
+        if ($only_public === true) {
+            $data['with_status'] = [
+                static::STATUS_NEW,
+                static::STATUS_QUEUE_IMAGE,
+                static::STATUS_LIVE
+            ];
+        }
+
+        $result = OSCOM::callDB('Sites\GetUserListing', $data, 'Site');
+
+        foreach ($result as $k => $v) {
+            $result[$k]['round_id'] = round((int)$v['id'], -3) / 1000;
+
+            unset($result[$k]['id']);
+        }
+
+        return $result;
     }
 
     public static function getCategories(int $category_id = null, string $country = null): array
@@ -354,6 +382,7 @@ class Sites
 
         if (OSCOM::callDB('Sites\SetStatus', $data, 'Site')) {
             Cache::clear('sites-' . $public_id);
+            Cache::clear('sites-user-' . $site['user_id']);
             Cache::clear('sites-listing');
             Cache::clear('sites-countries');
             Cache::clear('sites-categories');

@@ -1,0 +1,41 @@
+{{#sites}}
+<div id="c{{id}}" class="osc-card mdl-card mdl-shadow--2dp" data-public-id="{{publicId}}">
+  <div class="mdl-card__title {{colorClass}} mdl-color-text--white">
+    <h2 class="mdl-card__title-text osc-truncate">{{title}}</h2>
+  </div>
+
+  <div class="mdl-card__media mdl-color--white">
+    {{#url}}
+    <a href="{{url}}" rel="nofollow noopener noreferrer" target="_blank">
+    {{/url}}
+    <img src="{{img_src}}">
+    {{#url}}
+    </a>
+    {{/url}}
+  </div>
+
+  <div class="mdl-card__supporting-text" style="display: flex; box-sizing: border-box; align-items: center; width: 100%;">
+    <a href="{{parent_category_url}}" class="osc-truncate">{{parent_category_name}}</a>&nbsp;&gt;&nbsp;
+    <a href="{{category_url}}" class="osc-truncate">{{category_name}}</a>&nbsp;{{lang_in_country}}&nbsp;
+    <a href="{{country_url}}" class="osc-truncate">{{country_name}}</a>
+    <div class="mdl-layout-spacer"></div>
+    {{! total_likes <i class="material-icons">favorite</i> <!-- add css class mdl-color-text--red for red icon //--> }}
+
+    <div class="osc-card-admin">
+      <button type="button" id="siteMenu{{id}}" class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">more_vert</i>
+      </button>
+
+      <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" for="siteMenu{{id}}">
+        <li class="mdl-menu__item"><a class="dialogModerateLink" data-id="{{id}}" data-action="remove">{{lang_mod_remove}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{{/sites}}
+
+{{^sites}}
+<div class="mdl-components__warning">
+  {{lang_no_site_submissions}}
+</div>
+{{/sites}}

@@ -9,7 +9,7 @@
 namespace osCommerce\OM\Core\Site\Sites\Application\Account;
 
 use osCommerce\OM\Core\{
-     OSCOM,
+    OSCOM,
     Registry
 };
 
@@ -29,8 +29,25 @@ class Controller extends \osCommerce\OM\Core\Site\Sites\ApplicationAbstract
                 $OSCOM_MessageStack->add(OSCOM::getSiteApplication(), OSCOM::getDef('ms_new_submission_success'), 'success');
             }
 
+            $OSCOM_Template->setValue('user_name', $_SESSION['Website']['Account']['name']);
+
+            $breadcrumb = [
+                [
+                    'title' => OSCOM::getDef('breadcrumb_account'),
+                    'link' => OSCOM::getLink(null, 'Account')
+                ]
+            ];
+
+            $OSCOM_Template->setValue('breadcrumb_path', $breadcrumb);
+
             $this->_page_contents = 'main.html';
             $this->_page_title = OSCOM::getDef('account_html_title');
+
+            if ((OSCOM::getConfig('use_minified_resources') === 'true') && file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Sites/Application/Account/main.min.js')) {
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Account/main.min.js');
+            } else {
+                $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Account/main.js');
+            }
         } else {
             if (empty($this->getRequestedActions())) {
                 $this->runAction('Login');
