@@ -288,7 +288,9 @@ class Sites
 
     public static function save(array $data): bool
     {
-        return OSCOM::callDB('Sites\Save', $data, 'Site');
+        if (OSCOM::callDB('Sites\Save', $data, 'Site')) {
+            Cache::clear('sites-user-' . $data['user_id']);
+        }
     }
 
     public static function generatePublicId(): string
