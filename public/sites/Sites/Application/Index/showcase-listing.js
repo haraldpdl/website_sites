@@ -74,7 +74,7 @@ OSCOM.a.Index.showShowcaseListing = function() {
             data.sites.push({
                 'publicId': s.public_id,
                 'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(s.title),
-                'title': OSCOM.escapeHtml(s.title),
+                'title': s.title,
                 'url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Go': s.public_id})),
                 'img_src': OSCOM.siteImagePreviewBase + s.round_id + '/' + s.public_id + '.png',
                 'parent_category_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, parentCategoryCodeFilterParam)),

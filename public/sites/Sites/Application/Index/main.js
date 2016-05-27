@@ -94,7 +94,7 @@ OSCOM.a.Index.showListing = function(page) {
                 'publicId': value.public_id,
                 'pageSet': requestedPage,
                 'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(value.title),
-                'title': OSCOM.escapeHtml(value.title),
+                'title': value.title,
                 'url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Go': value.public_id})),
                 'img_src': OSCOM.siteImagePreviewBase + value.round_id + '/' + value.public_id + '.png',
                 'parent_category_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, parentCategoryCodeFilterParam, countryFilterParam)),

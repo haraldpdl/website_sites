@@ -75,7 +75,7 @@ OSCOM.a.Account.showUserListing = function() {
                 'id': OSCOM.a.Account.siteCounter,
                 'publicId': s.public_id,
                 'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(s.title),
-                'title': OSCOM.escapeHtml(s.title),
+                'title': s.title,
                 'url': (s.status === '3') ? OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Go': s.public_id})) : false,
                 'img_src': (s.status === '3') ? OSCOM.siteImagePreviewBase + s.round_id + '/' + s.public_id + '.png' : OSCOM.siteImagePreviewBase + 'pending.png',
                 'parent_category_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, parentCategoryCodeFilterParam)),
