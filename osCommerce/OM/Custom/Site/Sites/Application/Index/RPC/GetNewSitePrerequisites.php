@@ -31,11 +31,7 @@ class GetNewSitePrerequisites
             }
 
             if (empty($result)) {
-                $params = [
-                    'user_id' => $_SESSION['Website']['Account']['id']
-                ];
-
-                if (OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site')) {
+                if (Sites::canUserAddNewSite()) {
                     if (count(Sites::getUserListing()) < 24) {
                         foreach ($OSCOM_CategoryTree->getChildren(0) as $p) {
                             $parent = [

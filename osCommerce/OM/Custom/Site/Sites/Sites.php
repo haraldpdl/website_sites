@@ -16,6 +16,11 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Website\{
+    Partner,
+    Users
+};
+
 class Sites
 {
     const STATUS_DISABLED = 0;
@@ -284,6 +289,29 @@ class Sites
         }
 
         return $result;
+    }
+
+    public static function canUserAddNewSite(int $user_id = null): bool
+    {
+        if (!isset($user_id)) {
+            $user_id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $user = ($user_id === $_SESSION['Website']['Account']['id']) ? $_SESSION['Website']['Account'] : Users::get($user_id);
+
+        if (($user['admin'] === true) || ($user['team'] === true)) {
+            return true;
+        }
+
+        if (Partner::hasCampaign($user['id'])) {
+            return true;
+        }
+
+        $params = [
+            'user_id' => $user['id']
+        ];
+
+        return OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site');
     }
 
     public static function save(array $data): bool

@@ -31,7 +31,7 @@ class Add
 
             if ($publicToken !== md5($_SESSION['Website']['public_token'])) {
                 $result['error'] = 300;
-            } elseif (OSCOM::callDB('Sites\CanUserAddNewSite', [ 'user_id' => $_SESSION['Website']['Account']['id'] ], 'Site') !== true) {
+            } elseif (Sites::canUserAddNewSite() !== true) {
                 $result['error'] = 100;
             } elseif (count(Sites::getUserListing()) >= 24) {
                 $result['error'] = 700;
