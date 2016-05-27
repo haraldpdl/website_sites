@@ -318,7 +318,49 @@ class Sites
     {
         if (OSCOM::callDB('Sites\Save', $data, 'Site')) {
             Cache::clear('sites-user-' . $data['user_id']);
+
+            return true;
         }
+
+        return false;
+    }
+
+    public static function saveShowcase(string $public_id, string $partner, int $user_id = null): bool
+    {
+        if (!isset($user_id)) {
+            $user_id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $data = [
+            'site_id' => static::get($public_id, 'id'),
+            'partner_id' => Partner::get($partner, 'id'),
+            'user_id' => $user_id,
+            'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress())),
+        ];
+
+        if (OSCOM::callDB('Sites\SaveShowcase', $data, 'Site')) {
+            Cache::clear('sites-listing-showcase');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function deleteShowcase(string $public_id, string $partner): bool
+    {
+        $data = [
+            'site_id' => static::get($public_id, 'id'),
+            'partner_id' => Partner::get($partner, 'id')
+        ];
+
+        if (OSCOM::callDB('Sites\DeleteShowcase', $data, 'Site')) {
+            Cache::clear('sites-listing-showcase');
+
+            return true;
+        }
+
+        return false;
     }
 
     public static function generatePublicId(): string
