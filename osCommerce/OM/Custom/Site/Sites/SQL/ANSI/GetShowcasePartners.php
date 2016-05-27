@@ -80,7 +80,7 @@ class GetShowcasePartners
             $Qpartners->bindValue(':partner_category_code', $params['category']);
         }
 
-        $Qpartners->setCache($cache_key, 720);
+        $Qpartners->setCache($cache_key, 720, true);
         $Qpartners->execute();
 
         return $Qpartners->fetchAll();

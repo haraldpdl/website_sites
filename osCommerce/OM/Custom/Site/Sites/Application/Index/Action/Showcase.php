@@ -15,6 +15,8 @@ use osCommerce\OM\Core\{
     Registry
 };
 
+use osCommerce\OM\Core\Site\Sites\Sites;
+
 use osCommerce\OM\Core\Site\Website\Partner;
 
 class Showcase
@@ -22,6 +24,10 @@ class Showcase
     public static function execute(ApplicationAbstract $application)
     {
         $OSCOM_Template = Registry::get('Template');
+
+        if ($OSCOM_Template->getValue('has_showcase') !== true) {
+            OSCOM::redirect(OSCOM::getLink());
+        }
 
         $breadcrumb = [];
 
@@ -40,6 +46,10 @@ class Showcase
             $req_category = HTML::sanitize(strtolower(basename($req[1])));
 
             if (Partner::categoryExists($req_category)) {
+                if (empty(Sites::getShowcasePartners($req_category))) {
+                    OSCOM::redirect(OSCOM::getLink(null, 'Index', 'Showcase'));
+                }
+
                 $category = Partner::getCategory($req_category);
 
                 $breadcrumb[] = [
@@ -53,6 +63,10 @@ class Showcase
                     $req_partner = HTML::sanitize(strtolower(basename($req[2])));
 
                     if (Partner::exists($req_partner, $category['code'])) {
+                        if (empty(Sites::getShowcaseListing($req_partner))) {
+                            OSCOM::redirect(OSCOM::getLink(null, 'Index', 'Showcase&' . $category['code']));
+                        }
+
                         $partner = Partner::get($req_partner);
 
                         $breadcrumb[] = [

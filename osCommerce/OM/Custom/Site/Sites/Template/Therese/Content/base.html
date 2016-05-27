@@ -50,7 +50,9 @@
     <span class="mdl-layout-title">{lang}sidebar_title{lang}</span>
 
     <nav class="mdl-navigation">
+      {iftrue has_showcase}
       <a class="mdl-navigation__link mdl-navigation__link" href="{link}Index||Showcase{link}"><i class="material-icons">pages</i> {lang}sidebar_showcase{lang}</a>
+      {iftrue}
 
       <div class="mdl-selectfield mdl-js-selectfield">
         <select class="mdl-selectfield__select" id="countriesList">

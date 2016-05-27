@@ -42,7 +42,7 @@ class GetShowcaseListing
 
         $Qsites = $OSCOM_PDO->prepare($sql);
         $Qsites->bindValue(':partner_code', $params['partner']);
-        $Qsites->setCache('sites-listing-showcase-' . $params['partner'], 720);
+        $Qsites->setCache('sites-listing-showcase-' . $params['partner'], 720, true);
         $Qsites->execute();
 
         return $Qsites->fetchAll();
