@@ -8,7 +8,10 @@
 
 namespace osCommerce\OM\Core\Site\Sites\Application\Index\RPC;
 
-use osCommerce\OM\Core\OSCOM;
+use osCommerce\OM\Core\{
+    HTML,
+    OSCOM
+};
 
 use osCommerce\OM\Core\Site\Sites\Sites;
 
@@ -20,7 +23,7 @@ class Add
 
         if (isset($_SESSION['Website']['Account'])) {
             $publicToken = isset($_POST['publicToken']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['publicToken'])) : '';
-            $name = isset($_POST['name']) ? trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['name'])) : '';
+            $name = isset($_POST['name']) ? HTML::sanitize(trim(str_replace(array("\r\n", "\n", "\r"), '', $_POST['name']))) : '';
             $url = isset($_POST['url']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['url']) : '';
             $category = isset($_POST['category']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['category']) : '';
             $country = isset($_POST['country']) ? str_replace(array("\r\n", "\n", "\r"), '', $_POST['country']) : '';
