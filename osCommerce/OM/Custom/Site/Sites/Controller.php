@@ -77,8 +77,8 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
         $OSCOM_Template->addHtmlTag('dir', $OSCOM_Language->getTextDirection());
         $OSCOM_Template->addHtmlTag('lang', OSCOM::getDef('html_lang_code')); // HPDL A better solution is to define the ISO 639-1 value at the language level
 
-        $OSCOM_Template->addHtmlHeaderTag('<link rel="stylesheet" href="public/sites/Sites/templates/' . $OSCOM_Template->getCode() . '/stylesheets/main' . (OSCOM::getConfig('use_minified_resources') === 'true' ? '.min' : '') . '.css">');
-        $OSCOM_Template->addHtmlHeaderTag('<meta name="generator" content="osCommerce Sites v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '">');
+        $OSCOM_Template->addHtmlElement('header', '<link rel="stylesheet" href="public/sites/Sites/templates/' . $OSCOM_Template->getCode() . '/stylesheets/main' . (OSCOM::getConfig('use_minified_resources') === 'true' ? '.min' : '') . '.css">');
+        $OSCOM_Template->addHtmlElement('header', '<meta name="generator" content="osCommerce Sites v' . HTML::outputProtected(OSCOM::getVersion(OSCOM::getSite())) . '">');
 
         $OSCOM_Template->addExternalJavascript('public/sites/Sites/javascript/site' . (OSCOM::getConfig('use_minified_resources') === 'true' ? '.min' : '') . '.js');
 
@@ -137,14 +137,13 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
             'urlSiteWebsite' => OSCOM::getBaseUrl('Website')
         ];
 
-        $OSCOM_Template->addHtmlHeaderTag('<script>var OSCOM = ' . json_encode($siteConfigJs) . ';</script>');
+        $OSCOM_Template->addHtmlElement('header', '<script>var OSCOM = ' . json_encode($siteConfigJs) . ';</script>');
 
         $OSCOM_Template->setValue('html_tags', $OSCOM_Template->getHtmlTags());
         $OSCOM_Template->setValue('html_character_set', $OSCOM_Language->getCharacterSet());
         $OSCOM_Template->setValue('html_page_title', $OSCOM_Template->getPageTitle());
         $OSCOM_Template->setValue('html_page_contents_file', $OSCOM_Template->getPageContentsFile());
         $OSCOM_Template->setValue('html_base_href', $OSCOM_Template->getBaseUrl());
-        $OSCOM_Template->setValue('html_header_tags', $OSCOM_Template->getHtmlHeaderTags());
         $OSCOM_Template->setValue('current_year', date('Y'));
 
         $countriesList = [];

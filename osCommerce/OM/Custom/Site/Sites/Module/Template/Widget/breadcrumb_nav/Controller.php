@@ -54,6 +54,29 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
         if (!empty($breadcrumb)) {
             $OSCOM_Template->setValue('breadcrumb_path', $breadcrumb, true);
 
+            $breadcrumb_path_json = [
+                '@context' => 'http://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => []
+            ];
+
+            $bc_counter = 0;
+
+            foreach ($breadcrumb as $bc) {
+                $bc_counter += 1;
+
+                $breadcrumb_path_json['itemListElement'][] = [
+                    '@type' => 'ListItem',
+                    'position' => $bc_counter,
+                    'item' => [
+                        '@id' => $bc['link'],
+                        'name' => $bc['title']
+                    ]
+                ];
+            }
+
+            $OSCOM_Template->addHtmlElement('footer', '<script type="application/ld+json" id="jsonldBreadcrumb">' . json_encode($breadcrumb_path_json) . '</script>');
+
             $result = file_get_contents(OSCOM::BASE_DIRECTORY . 'Custom/Site/Sites/Module/Template/Widget/breadcrumb_nav/pages/main.html');
 
             $js = <<<'EOT'

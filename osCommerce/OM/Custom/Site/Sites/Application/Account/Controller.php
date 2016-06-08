@@ -22,7 +22,7 @@ class Controller extends \osCommerce\OM\Core\Site\Sites\ApplicationAbstract
         $OSCOM_MessageStack = Registry::get('MessageStack');
         $OSCOM_Template = Registry::get('Template');
 
-        $OSCOM_Template->addHtmlHeaderTag('<meta name="robots" content="noindex, nofollow">');
+        $OSCOM_Template->addHtmlElement('header', '<meta name="robots" content="noindex, nofollow">');
 
         if (isset($_SESSION['Website']['Account'])) {
             if ($_GET['Account'] == 'new-site-added') {
