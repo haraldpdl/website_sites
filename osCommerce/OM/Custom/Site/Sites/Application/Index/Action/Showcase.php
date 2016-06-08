@@ -29,6 +29,10 @@ class Showcase
             OSCOM::redirect(OSCOM::getLink());
         }
 
+        $html_title = [
+            OSCOM::getDef('showcase_html_title')
+        ];
+
         $breadcrumb = [];
 
         if ($OSCOM_Template->valueExists('breadcrumb_path')) {
@@ -52,6 +56,8 @@ class Showcase
 
                 $category = Partner::getCategory($req_category);
 
+                array_unshift($html_title, $category['title']);
+
                 $breadcrumb[] = [
                     'title' => $category['title'],
                     'link' => OSCOM::getLink(null, 'Index', 'Showcase&' . $category['code'])
@@ -69,6 +75,9 @@ class Showcase
 
                         $partner = Partner::get($req_partner);
 
+                        array_shift($html_title); // remove category
+                        array_unshift($html_title, $partner['title']);
+
                         $breadcrumb[] = [
                             'title' => $partner['title'],
                             'link' => OSCOM::getLink(null, 'Index', 'Showcase&' . $category['code'] . '&' . $partner['code'])
@@ -83,7 +92,7 @@ class Showcase
         $OSCOM_Template->setValue('breadcrumb_path', $breadcrumb, true);
 
         $application->setPageContent('showcase.html');
-        $application->setPageTitle(OSCOM::getDef('showcase_html_title'));
+        $application->setPageTitle(implode(' | ', $html_title));
 
         if ((OSCOM::getConfig('use_minified_resources') === 'true') && file_exists(OSCOM::getConfig('dir_fs_public', 'OSCOM') . 'sites/Sites/Application/Index/showcase.min.js')) {
             $OSCOM_Template->addExternalJavascript('public/sites/Sites/Application/Index/showcase.min.js');

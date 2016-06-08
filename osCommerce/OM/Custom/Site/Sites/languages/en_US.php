@@ -1,5 +1,6 @@
 html_lang_code = en
 html_page_title = Live Sites | osCommerce
+html_page_title_breadcrumb = Live Sites in :path | osCommerce
 
 page_title = osCommerce Live Sites
 
