@@ -80,7 +80,17 @@ class Controller extends \osCommerce\OM\Core\Template\WidgetAbstract
             $result = file_get_contents(OSCOM::BASE_DIRECTORY . 'Custom/Site/Sites/Module/Template/Widget/breadcrumb_nav/pages/main.html');
 
             $js = <<<'EOT'
-$('#breadcrumbNav a').filter(':last').addClass('is-active');
+if ($('#jsonldBreadcrumb').length) {
+    var jsonBreadcrumb = $.parseJSON($('#jsonldBreadcrumb').html());
+
+    for (var i = 0, n = jsonBreadcrumb.itemListElement.length; i < n; i += 1) {
+        $('#breadcrumbNav').append('<a href="' + jsonBreadcrumb.itemListElement[i].item['@id'] + '" class="mdl-layout__tab">' + jsonBreadcrumb.itemListElement[i].item.name + '</a>');
+    }
+
+    componentHandler.upgradeElements($('#breadcrumbNav').get(0));
+
+    $('#breadcrumbNav a').filter(':last').addClass('is-active');
+}
 EOT;
 
             $OSCOM_Template->addJavascriptBlock($js);

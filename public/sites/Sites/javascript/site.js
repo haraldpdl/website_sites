@@ -89,16 +89,6 @@ $.extend(OSCOM, {
 });
 
 $(function() {
-/* MDL 1.1.3 does not allow tabs to be dynamically added
-    var jsonBreadcrumb = $.parseJSON($('#jsonldBreadcrumb').html());
-
-    for (var i = 0, n = jsonBreadcrumb.itemListElement.length; i < n; i += 1) {
-        $('#breadcrumbNav').append('<a href="' + jsonBreadcrumb.itemListElement[i].item['@id'] + '" class="mdl-layout__tab">' + jsonBreadcrumb.itemListElement[i].item.name + '</a>');
-    }
-
-    componentHandler.upgradeElements($('#breadcrumbNav').get(0));
-*/
-
     if (OSCOM.loggedIn === true) {
         $('#userMenu').append('<li class="mdl-menu__item"><a href="' + OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Account': ''})) + '">' + OSCOM.def.js_navbutton_account_my_account + '</a></li>');
         $('#userMenu').append('<li class="mdl-menu__item"><a href="' + OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Account': '', 'OkILoveYouByeBye': '', 'category': OSCOM.categoryPath.join('--'), 'country': OSCOM.country})) + '">' + OSCOM.def.js_navbutton_account_log_out + '</a></li>');
