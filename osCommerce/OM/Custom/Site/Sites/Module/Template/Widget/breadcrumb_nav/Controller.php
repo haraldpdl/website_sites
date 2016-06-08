@@ -87,8 +87,6 @@ if ($('#jsonldBreadcrumb').length) {
         $('#breadcrumbNav').append('<a href="' + jsonBreadcrumb.itemListElement[i].item['@id'] + '" class="mdl-layout__tab">' + jsonBreadcrumb.itemListElement[i].item.name + '</a>');
     }
 
-    componentHandler.upgradeElements($('#breadcrumbNav').get(0));
-
     $('#breadcrumbNav a').filter(':last').addClass('is-active');
 }
 EOT;
