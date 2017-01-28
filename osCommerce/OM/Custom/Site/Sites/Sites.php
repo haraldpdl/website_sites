@@ -2,8 +2,8 @@
 /**
  * osCommerce Sites
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2017 osCommerce; https://www.oscommerce.com
+ * @license BSD; https://www.oscommerce.com/license/bsd.txt
  */
 
 namespace osCommerce\OM\Core\Site\Sites;
@@ -68,7 +68,11 @@ class Sites
 
     public static function getShowcasePartners(string $category = null): array
     {
-        $params = [];
+        $OSCOM_Language = Registry::get('Language');
+
+        $params = [
+            'language_id' => $OSCOM_Language->getDefaultId()
+        ];
 
         if (isset($category)) {
             $params['category'] = $category;
