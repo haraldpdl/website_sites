@@ -11,6 +11,7 @@ namespace osCommerce\OM\Core\Site\Sites;
 use osCommerce\OM\Core\{
     Cache,
     DataTree,
+//    Events,
     Hash,
     HTML,
     OSCOM,
@@ -51,16 +52,19 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
         if (!OSCOM::isRPC()) {
             if (!isset($_SESSION['Website']['Account'])) {
-                if (isset($_COOKIE['member_id']) && is_numeric($_COOKIE['member_id']) && ($_COOKIE['member_id'] > 0) && isset($_COOKIE['pass_hash']) && (strlen($_COOKIE['pass_hash']) == 32)) {
-                    $user = Invision::canAutoLogin($_COOKIE['member_id'], $_COOKIE['pass_hash']);
+                $user = Invision::canAutoLogin();
 
-                    if (is_array($user) && isset($user['id']) && ($user['verified'] === true) && ($user['banned'] === false)) {
+                if (is_array($user) && isset($user['id'])) {
+//                    Events::fire('auto_login-before', $user);
+
+                    if (($user['verified'] === true) && ($user['banned'] === false)) {
                         $_SESSION['Website']['Account'] = $user;
 
                         $OSCOM_Session->recreate();
+
+//                        Events::fire('auto_login-after');
                     } else {
-                        OSCOM::setCookie('member_id', '', time() - 31536000, null, null, false, true);
-                        OSCOM::setCookie('pass_hash', '', time() - 31536000, null, null, false, true);
+                        Invision::killCookies();
                     }
                 }
             }
