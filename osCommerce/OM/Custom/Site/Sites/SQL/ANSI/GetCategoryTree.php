@@ -32,13 +32,6 @@ from :table_website_live_shops_categories c order by c.parent_id, c.sort_order, 
             $Qcats->bindInt(':country_id', $params['country_id']);
         }
 
-        $cache_name = 'sites-categories';
-
-        if (isset($params['country_id'])) {
-            $cache_name .= '-country' . $params['country_id'];
-        }
-
-        $Qcats->setCache($cache_name);
         $Qcats->execute();
 
         return $Qcats->fetchAll();

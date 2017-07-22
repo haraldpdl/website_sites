@@ -22,7 +22,6 @@ class CanUserAddNewSite
 
         $Qcheck = $OSCOM_PDO->prepare('select id from :table_website_live_shops where user_id = :user_id and date_added >= date_sub(now(), interval 1 day) limit 1');
         $Qcheck->bindInt(':user_id', $params['user_id']);
-        $Qcheck->setCache('sites-user-' . $params['user_id'] . '-prereqcheck', 15);
         $Qcheck->execute();
 
         return $Qcheck->fetch() === false;

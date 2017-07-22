@@ -36,20 +36,6 @@ class GetListing
 
         $Qsites->bindInt(':batch_pageset', $OSCOM_PDO->getBatchFrom($params['pageset'], 24));
         $Qsites->bindInt(':batch_max_results', 24);
-
-        $cache_name = 'sites-listing';
-
-        if (isset($params['categories']) && is_array($params['categories']) && !empty($params['categories'])) {
-            $cache_name .= '-cat' . $params['categories'][0];
-        }
-
-        if (!empty($params['country'])) {
-            $cache_name .= '-country' . $params['country'];
-        }
-
-        $cache_name .= '-page' . $params['pageset'];
-
-        $Qsites->setCache($cache_name);
         $Qsites->execute();
 
         return $Qsites->fetchAll();

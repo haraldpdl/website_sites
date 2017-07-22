@@ -33,16 +33,6 @@ class GetUserListing
             }
         }
 
-        $cache_key = 'sites-user-' . $params['user_id'];
-
-        if (isset($params['with_status'])) {
-            $status_values = $params['with_status'];
-            natsort($status_values);
-
-            $cache_key .= '-s' . implode('_s', $status_values);
-        }
-
-        $Qsites->setCache($cache_key, 1440, true);
         $Qsites->execute();
 
         return $Qsites->fetchAll();

@@ -70,14 +70,6 @@ class GetShowcasePartners
                 sum(pt.cost) desc,
                 pi.title';
 
-        $cache_key = 'sites-listing-showcase';
-
-        if (isset($params['category'])) {
-            $cache_key .= '-' . $params['category'];
-        }
-
-        $cache_key .= '-lang' . $params['language_id'];
-
         $Qpartners = $OSCOM_PDO->prepare($sql);
 
         if (isset($params['category'])) {
@@ -85,7 +77,6 @@ class GetShowcasePartners
         }
 
         $Qpartners->bindInt(':languages_id', $params['language_id']);
-        $Qpartners->setCache($cache_key, 720, true);
         $Qpartners->execute();
 
         return $Qpartners->fetchAll();

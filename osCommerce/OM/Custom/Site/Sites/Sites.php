@@ -10,7 +10,6 @@ namespace osCommerce\OM\Core\Site\Sites;
 
 use osCommerce\OM\Core\{
     AuditLog,
-    Cache,
     Hash,
     OSCOM,
     Registry
@@ -20,6 +19,8 @@ use osCommerce\OM\Core\Site\Website\{
     Partner,
     Users
 };
+
+use osCommerce\OM\Core\Site\Apps\Cache;
 
 class Sites
 {
@@ -55,7 +56,29 @@ class Sites
             $params['categories'] = $categories;
         }
 
-        $result = OSCOM::callDB('Sites\GetListing', $params, 'Site');
+        $cache_name = 'sites-listing-NS';
+
+        if (isset($params['categories']) && is_array($params['categories']) && !empty($params['categories'])) {
+            $cache_name .= '-cat' . $params['categories'][0];
+        }
+
+        if (!empty($params['country'])) {
+            $cache_name .= '-country' . $params['country'];
+        }
+
+        $cache_name .= '-page' . $params['pageset'];
+
+        $OSCOM_Cache = new Cache($cache_name);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetListing', $params, 'Site');
+
+            $OSCOM_Cache->set($result);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
 
         foreach ($result as $k => $v) {
             $result[$k]['round_id'] = round((int)$v['id'], -3) / 1000;
@@ -78,7 +101,25 @@ class Sites
             $params['category'] = $category;
         }
 
-        $result = OSCOM::callDB('Sites\GetShowcasePartners', $params, 'Site');
+        $cache_name = 'sites-showcase-NS';
+
+        if (isset($params['category'])) {
+            $cache_name .= '-cat' . $params['category'];
+        }
+
+        $cache_name .= '-lang' . $params['language_id'];
+
+        $OSCOM_Cache = new Cache($cache_name);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetShowcasePartners', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 720);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
 
         foreach ($result as $k => $v) {
             $result[$k]['site_round_id'] = round((int)$v['site_id'], -3) / 1000;
@@ -95,7 +136,17 @@ class Sites
             'partner' => $partner
         ];
 
-        $result = OSCOM::callDB('Sites\GetShowcaseListing', $params, 'Site');
+        $OSCOM_Cache = new Cache('sites-showcase-NS-partner' . $params['partner']);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetShowcaseListing', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 720);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
 
         foreach ($result as $k => $v) {
             $result[$k]['round_id'] = round((int)$v['id'], -3) / 1000;
@@ -112,19 +163,38 @@ class Sites
             $id = $_SESSION['Website']['Account']['id'];
         }
 
-        $data = [
+        $params = [
             'user_id' => $id
         ];
 
         if ($only_public === true) {
-            $data['with_status'] = [
+            $params['with_status'] = [
                 static::STATUS_NEW,
                 static::STATUS_QUEUE_IMAGE,
                 static::STATUS_LIVE
             ];
         }
 
-        $result = OSCOM::callDB('Sites\GetUserListing', $data, 'Site');
+        $cache_name = 'sites-user-NS-u' . $params['user_id'];
+
+        if (isset($params['with_status'])) {
+            $status_values = $params['with_status'];
+            natsort($status_values);
+
+            $cache_name .= '-s' . implode('_s', $status_values);
+        }
+
+        $OSCOM_Cache = new Cache($cache_name);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetUserListing', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 1440);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
 
         foreach ($result as $k => $v) {
             $result[$k]['round_id'] = round((int)$v['id'], -3) / 1000;
@@ -167,6 +237,26 @@ class Sites
         ];
 
         return OSCOM::callDB('Sites\GetCountries', $params, 'Site');
+
+        if ($params['category_id'] === -1) {
+            $cache_name = 'sites-countries-all';
+        } else {
+            $cache_name = 'sites-countries-active';
+        }
+
+        $OSCOM_Cache = new Cache($cache_name);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetCountries', $params, 'Site');
+
+            $OSCOM_Cache->set($result);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
+
+        return $result;
     }
 
     public static function countryExists(string $code, bool $strict = false): bool
@@ -263,7 +353,25 @@ class Sites
             'country_id' => !empty($country) ? static::getCountry($country, 'id') : null
         ];
 
-        $data = OSCOM::callDB('Sites\GetCategoryTree', $params, 'Site');
+        $cache_name = 'sites-categories-NS';
+
+        if (isset($params['country_id'])) {
+            $cache_name .= '-country' . $params['country_id'];
+        } else {
+            $cache_name .= '-all';
+        }
+
+        $OSCOM_Cache = new Cache($cache_name);
+
+        if (($data = $OSCOM_Cache->get()) === false) {
+            $data = OSCOM::callDB('Sites\GetCategoryTree', $params, 'Site');
+
+            $OSCOM_Cache->set($data);
+        }
+
+        if (!is_array($data)) {
+            $data = [];
+        }
 
         foreach ($data as $row) {
             $result[(int)$row['parent_id']][(int)$row['categories_id']] = [
@@ -315,13 +423,22 @@ class Sites
             'user_id' => $user['id']
         ];
 
-        return OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site');
+        $OSCOM_Cache = new Cache('sites-user-NS-u' . $params['user_id'] . '-prereqcheck');
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\CanUserAddNewSite', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 15);
+        }
+
+        return $result;
     }
 
     public static function save(array $data): bool
     {
         if (OSCOM::callDB('Sites\Save', $data, 'Site')) {
-            Cache::clear('sites-user-' . $data['user_id']);
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-user-NS');
 
             return true;
         }
@@ -343,7 +460,8 @@ class Sites
         ];
 
         if (OSCOM::callDB('Sites\SaveShowcase', $data, 'Site')) {
-            Cache::clear('sites-listing-showcase');
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-showcase-NS');
 
             return true;
         }
@@ -359,7 +477,8 @@ class Sites
         ];
 
         if (OSCOM::callDB('Sites\DeleteShowcase', $data, 'Site')) {
-            Cache::clear('sites-listing-showcase');
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-showcase-NS');
 
             return true;
         }
@@ -396,7 +515,17 @@ class Sites
 
     public static function get(string $public_id, string $key = null)
     {
-        $result = OSCOM::callDB('Sites\GetSite', [ 'public_id' => $public_id ], 'Site');
+        $OSCOM_Cache = new Cache('sites-NS-s' . $public_id);
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetSite', [ 'public_id' => $public_id ], 'Site');
+
+            $OSCOM_Cache->set($result, 1440);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        }
 
         $result['round_id'] = round((int)$result['id'], -3) / 1000;
 
@@ -457,12 +586,14 @@ class Sites
         ];
 
         if (OSCOM::callDB('Sites\SetStatus', $data, 'Site')) {
-            Cache::clear('sites-' . $public_id);
-            Cache::clear('sites-user-' . $site['user_id']);
-            Cache::clear('sites-listing');
-            Cache::clear('sites-countries');
-            Cache::clear('sites-categories');
-            Cache::clear('sites-showcase');
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-NS');
+            $OSCOM_Cache->delete('sites-user-NS');
+            $OSCOM_Cache->delete('sites-listing-NS');
+            $OSCOM_Cache->delete('sites-countries-all');
+            $OSCOM_Cache->delete('sites-countries-active');
+            $OSCOM_Cache->delete('sites-categories-NS');
+            $OSCOM_Cache->delete('sites-showcase-NS');
 
             $diff = array_diff_assoc($data, $site);
 
