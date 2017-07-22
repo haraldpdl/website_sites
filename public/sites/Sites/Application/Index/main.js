@@ -53,7 +53,7 @@ OSCOM.a.Index.showListing = function(page) {
     }
 
     var rpcGetListing = $.getJSON(OSCOM.generateUrl(false, OSCOM.a.Index.loadMoreUrlParams), function(data) {
-        if ((data === null) || (typeof data !== 'object') || ($.isArray(data) === false)) {
+        if ((data === null) || (typeof data !== 'object') || (Array.isArray(data) === false)) {
             return dfd.reject();
         }
 

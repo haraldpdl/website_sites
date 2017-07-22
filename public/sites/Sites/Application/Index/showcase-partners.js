@@ -34,7 +34,7 @@ OSCOM.a.Index.showShowcasePartners = function() {
     var dfd = $.Deferred();
 
     var rpcGetListing = $.getJSON(OSCOM.generateUrl(false, loadUrlParams), function(result) {
-        if ((result === null) || (typeof result !== 'object') || ($.isArray(result) === false)) {
+        if ((result === null) || (typeof result !== 'object') || (Array.isArray(result) === false)) {
             return dfd.reject();
         }
 

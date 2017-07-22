@@ -32,7 +32,7 @@ OSCOM.a.Account.showUserListing = function() {
     var dfd = $.Deferred();
 
     var rpcGetListing = $.getJSON(OSCOM.generateUrl(false, OSCOM.a.Account.loadMoreUrlParams), function(result) {
-        if ((result === null) || (typeof result !== 'object') || ($.isArray(result) === false)) {
+        if ((result === null) || (typeof result !== 'object') || (Array.isArray(result) === false)) {
             return dfd.reject();
         }
 
