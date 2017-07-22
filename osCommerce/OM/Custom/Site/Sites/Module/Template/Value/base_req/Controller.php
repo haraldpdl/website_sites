@@ -17,7 +17,7 @@ class Controller extends \osCommerce\OM\Core\Template\ValueAbstract
         $url = [];
 
         if (OSCOM::getSite() != OSCOM::getDefaultSite()) {
-            $url[OSCOM::getSite()] = $_GET[OSCOM::getSite()];
+            $url[OSCOM::getSite()] = $_GET[OSCOM::getSite()] ?? null;
         }
 
         return $url;
