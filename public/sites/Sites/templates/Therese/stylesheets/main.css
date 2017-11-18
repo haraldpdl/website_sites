@@ -19,6 +19,11 @@ a {
   max-height: 288px;
 }
 
+.osc-showcase-card-border {
+  border: 6px #ffb13b solid;
+  border-radius: 15px;
+}
+
 .osc-truncate {
   display: block;
   white-space: nowrap;

@@ -49,7 +49,16 @@ class Showcase
         if (isset($req[1]) && !empty($req[1])) {
             $req_category = HTML::sanitize(strtolower(basename($req[1])));
 
-            if (Partner::categoryExists($req_category)) {
+            if ($req_category === 'ambassadors') {
+                array_unshift($html_title, OSCOM::getDef('ambassador_title'));
+
+                $breadcrumb[] = [
+                    'title' => OSCOM::getDef('ambassador_title'),
+                    'link' => OSCOM::getLink(null, 'Index', 'Showcase&ambassadors')
+                ];
+
+                $OSCOM_Template->addJavascriptBlock('OSCOM.a.Index.currentShowcaseCategory = "ambassadors";');
+            } elseif (Partner::categoryExists($req_category)) {
                 if (empty(Sites::getShowcasePartners($req_category))) {
                     OSCOM::redirect(OSCOM::getLink(null, 'Index', 'Showcase'));
                 }

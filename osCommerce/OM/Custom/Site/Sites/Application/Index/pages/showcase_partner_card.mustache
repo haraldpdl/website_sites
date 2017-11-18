@@ -15,7 +15,9 @@
     <div class="mdl-card__supporting-text" style="display: flex; box-sizing: border-box; align-items: center; width: 100%;">
       <a href="{{url}}" class="osc-truncate">{{title}}</a>
       <div class="mdl-layout-spacer"></div>
+      {{#category_title}}
       <a href="{{category_url}}" class="osc-truncate mdl-color-text--blue-grey-400">({{category_title}})</a>
+      {{/category_title}}
     </div>
   </div>
 {{/partners}}

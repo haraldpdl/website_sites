@@ -31,6 +31,21 @@ OSCOM.a.Account.showModerateSiteDialog = function(action, publicId) {
         return false;
     }
 
+    if (action === 'ambShowcaseAdd') {
+        if (OSCOM.a.Account.totalAmbassadorShowcaseSites >= OSCOM.ambassadorLevel) {
+            toastr.error(OSCOM.strReplace(OSCOM.def.js_error_mod_site_ambassador_showcase_full, {
+                ':ambassadors_url': OSCOM.generateUrl(false, {
+                    '_': '',
+                    'Ambassadors': ''
+                }, OSCOM.urlSiteWebsite)
+            }), null, {
+                escapeHtml: false
+            });
+
+            return false;
+        }
+    }
+
     $('#dialogModerateSite .osc-dialog-content').hide();
     $('#dialogModerateSite .osc-dialog-prepare').show();
 
@@ -117,7 +132,11 @@ OSCOM.a.Account.showModerateSiteDialog = function(action, publicId) {
                 break;
 
             case 300:
-                toastr.error(OSCOM.def.js_error_mod_site_security_token_integrity, null, {
+                toastr.error(OSCOM.strReplace(OSCOM.def.js_error_mod_site_security_token_integrity, {
+                    ':account_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {
+                        'Account': ''
+                    }))
+                }), null, {
                     escapeHtml: false
                 });
                 break;
@@ -208,6 +227,12 @@ $('#dialogModerateSite .osc-dialog-content .mdl-dialog__actions button:not([data
     $.when(dfd).then(function() {
         OSCOM.a.Account.dialogModerateSite.close();
 
+        if (action === 'ambShowcaseRemove') {
+            OSCOM.a.Account.totalAmbassadorShowcaseSites -= 1;
+        } else if (action === 'ambShowcaseAdd') {
+            OSCOM.a.Account.totalAmbassadorShowcaseSites += 1;
+        }
+
         OSCOM.a.Account.showUserListing();
 
         toastr.success(OSCOM.def.js_mod_success);
@@ -235,7 +260,11 @@ $('#dialogModerateSite .osc-dialog-content .mdl-dialog__actions button:not([data
             case 300:
                 OSCOM.a.Account.dialogModerateSite.close();
 
-                toastr.error(OSCOM.def.js_error_mod_site_security_token_integrity, null, {
+                toastr.error(OSCOM.strReplace(OSCOM.def.js_error_mod_site_security_token_integrity, {
+                    ':account_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {
+                        'Account': ''
+                    }))
+                }), null, {
                     escapeHtml: false
                 });
 

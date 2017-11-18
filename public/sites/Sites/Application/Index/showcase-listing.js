@@ -25,9 +25,14 @@ OSCOM.a.Index.showShowcaseListing = function() {
     $.extend(loadUrlParams, OSCOM.urlBaseReq, {
         'Index': '',
         'GetShowcaseListing': '',
-        'category': OSCOM.a.Index.currentShowcaseCategory,
-        'partner': OSCOM.a.Index.currentShowcasePartner
+        'category': OSCOM.a.Index.currentShowcaseCategory
     });
+
+    if (typeof OSCOM.a.Index.currentShowcasePartner !== 'undefined') {
+        $.extend(loadUrlParams, {
+            'partner': OSCOM.a.Index.currentShowcasePartner
+        });
+    }
 
     var dfd = $.Deferred();
 
@@ -49,6 +54,10 @@ OSCOM.a.Index.showShowcaseListing = function() {
             'sites': [],
             'lang_in_country': OSCOM.def.js_site_card_in_country
         };
+
+        if (result.partner_code === 'ambassadors') {
+            data.lang_visit_partner_website = OSCOM.def.js_become_an_ambassador;
+        }
 
         result.sites.forEach(function(s) {
             var parentCategoryCode = s.parent_category_name;

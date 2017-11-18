@@ -26,6 +26,9 @@ dialog_button_disable = Disable
 dialog_button_requeue = Requeue
 dialog_button_save = Save
 
+ambassador_title = Ambassadors
+ambassador_short_desc = These sites have been selected by our Ambassadors to showcase to the community. If you're interested in promoting a site you have submitted, become an Ambassador and add the site to the showcase from your account area.
+
 js_sites_plural = sites
 js_sites_single = site
 
@@ -35,6 +38,8 @@ js_site_card_in_country = in
 
 js_site_card_admin_disable = Disable
 js_site_card_admin_requeue = Requeue
+
+js_become_an_ambassador = ♥ Become an Ambassador
 
 js_mod_success = The requested action was performed successfully!
 

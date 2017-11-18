@@ -30,6 +30,12 @@ class GetShowcasePartners
 
         $result = Sites::getShowcasePartners($category);
 
+        $ambassadors = Sites::getAmbassadorShowcase();
+
+        if (!empty($ambassadors)) {
+            array_push($result, $ambassadors[0]);
+        }
+
         echo json_encode($result);
     }
 }

@@ -8,7 +8,10 @@
 
 namespace osCommerce\OM\Core\Site\Sites\Application\Index\RPC;
 
-use osCommerce\OM\Core\HTML;
+use osCommerce\OM\Core\{
+    HTML,
+    OSCOM
+};
 
 use osCommerce\OM\Core\Site\Sites\Sites;
 
@@ -23,7 +26,15 @@ class GetShowcaseListing
         if (isset($_GET['category']) && !empty($_GET['category'])) {
             $req_category = HTML::sanitize(strtolower(basename($_GET['category'])));
 
-            if (Partner::categoryExists($req_category)) {
+            if ($req_category === 'ambassadors') {
+                $result = [
+                    'partner_code' => 'ambassadors',
+                    'partner_title' => OSCOM::getDef('ambassador_title'),
+                    'partner_desc' => OSCOM::getDef('ambassador_short_desc'),
+                    'partner_url' => OSCOM::getLink('Website', '_', 'Ambassadors'),
+                    'sites' => Sites::getAmbassadorShowcaseListing()
+                ];
+            } elseif (Partner::categoryExists($req_category)) {
                 $category = Partner::getCategory($req_category, 'code');
 
                 if (isset($_GET['partner']) && !empty($_GET['partner'])) {

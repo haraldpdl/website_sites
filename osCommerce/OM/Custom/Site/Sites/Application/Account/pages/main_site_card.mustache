@@ -1,5 +1,5 @@
 {{#sites}}
-<div id="c{{id}}" class="osc-card mdl-card mdl-shadow--2dp" data-public-id="{{publicId}}">
+<div id="c{{id}}" class="osc-card mdl-card mdl-shadow--2dp" data-public-id="{{publicId}}" data-ambassador-showcase-flag="{{ambassador_showcase_flag}}">
   <div class="mdl-card__title {{colorClass}} mdl-color-text--white">
     <h2 class="mdl-card__title-text osc-truncate">{{title}}</h2>
   </div>
@@ -27,6 +27,14 @@
       </button>
 
       <ul class="mdl-menu mdl-menu--top-right mdl-js-menu mdl-js-ripple-effect" for="siteMenu{{id}}">
+        {{#status_live}}
+          {{#ambassador_showcase_flag}}
+          <li class="mdl-menu__item"><a class="dialogModerateLink" data-id="{{id}}" data-action="ambShowcaseRemove">{{lang_showcase_remove}}</a></li>
+          {{/ambassador_showcase_flag}}
+          {{^ambassador_showcase_flag}}
+          <li class="mdl-menu__item"><a class="dialogModerateLink" data-id="{{id}}" data-action="ambShowcaseAdd">{{lang_showcase_add}}</a></li>
+          {{/ambassador_showcase_flag}}
+        {{/status_live}}
         <li class="mdl-menu__item"><a class="dialogModerateLink" data-id="{{id}}" data-action="remove">{{lang_mod_remove}}</a></li>
       </ul>
     </div>

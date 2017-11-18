@@ -49,7 +49,10 @@ OSCOM.a.Index.showShowcasePartners = function() {
 
         result.forEach(function(p) {
             var currentPartnerCategoryParam = {};
-            currentPartnerCategoryParam[p.category_code] = '';
+
+            if (typeof p.category_code !== 'undefined') {
+                currentPartnerCategoryParam[p.category_code] = '';
+            }
 
             var currentPartnerParam = {};
             currentPartnerParam[p.code] = '';
@@ -60,11 +63,14 @@ OSCOM.a.Index.showShowcasePartners = function() {
                 'url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Showcase': ''}, currentPartnerCategoryParam, currentPartnerParam)),
                 'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(p.title),
                 'img_src': OSCOM.siteImagePreviewBase + p.site_round_id + '/' + p.site_public_id + '.png',
-                'category_title': p.category_title,
-                'category_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Showcase': ''}, currentPartnerCategoryParam)),
                 'total_sites': p.total_sites,
                 'total_sites_label': (p.total_sites > 1) ? OSCOM.def.js_sites_plural : OSCOM.def.js_sites_single
             };
+
+            if (typeof p.category_code !== 'undefined') {
+                partner.category_title = p.category_title;
+                partner.category_url = OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'Showcase': ''}, currentPartnerCategoryParam));
+            }
 
             data.partners.push(partner);
         });

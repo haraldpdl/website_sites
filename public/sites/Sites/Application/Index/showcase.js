@@ -10,7 +10,7 @@
 OSCOM.a.Index.isGettingListing = false;
 
 $(function() {
-    if (typeof OSCOM.a.Index.currentShowcasePartner !== 'undefined') {
+    if ((typeof OSCOM.a.Index.currentShowcasePartner !== 'undefined') || ((typeof OSCOM.a.Index.currentShowcaseCategory !== 'undefined') && (OSCOM.a.Index.currentShowcaseCategory === 'ambassadors'))) {
         OSCOM.a.Index.showShowcaseListing();
     } else {
         OSCOM.a.Index.showShowcasePartners();

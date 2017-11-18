@@ -157,6 +157,92 @@ class Sites
         return $result;
     }
 
+    public static function hasAmbassadorShowcase(): bool
+    {
+        $params = [
+            'status' => static::STATUS_LIVE
+        ];
+
+        $OSCOM_Cache = new Cache('sites-ambassador-showcase-check');
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\CheckAmbassadorShowcase', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 360);
+        }
+
+        return $result === 1;
+    }
+
+    public static function getAmbassadorShowcase(): array
+    {
+        $params = [
+            'status' => static::STATUS_LIVE
+        ];
+
+        $OSCOM_Cache = new Cache('sites-ambassador-showcase');
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetAmbassadorShowcase', $params, 'Site');
+
+            $OSCOM_Cache->set($result, 360);
+        }
+
+        if (!is_array($result)) {
+            $result = [];
+        } else {
+            $result[0]['title'] = OSCOM::getDef('ambassador_title');
+            $result[0]['code'] = 'ambassadors';
+
+            $result[0]['site_round_id'] = round((int)$result[0]['site_id'], -3) / 1000;
+
+            unset($result[0]['site_id']);
+        }
+
+        return $result;
+    }
+
+    public static function getAmbassadorShowcaseListing(bool $get_expiry_time = false): array
+    {
+        $params = [
+            'status' => static::STATUS_LIVE
+        ];
+
+        $OSCOM_Cache = new Cache('sites-ambassador-showcase-NS-listing');
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = [
+                'entries' => OSCOM::callDB('Sites\GetAmbassadorShowcaseListing', $params, 'Site'),
+                'ttl' => (new \DateTime())->modify('+6 hours')->format('c')
+            ];
+
+            $OSCOM_Cache->set($result, 360);
+        }
+
+        if ($get_expiry_time === true) {
+            return [
+                'ttl' => $result['ttl']
+            ];
+        }
+
+        if (!is_array($result['entries'])) {
+            $result['entries'] = [];
+        }
+
+        foreach ($result['entries'] as $k => $v) {
+            $result['entries'][$k]['round_id'] = round((int)$v['id'], -3) / 1000;
+
+            unset($result['entries'][$k]['id']);
+        }
+
+        return $result['entries'];
+    }
+
+    public static function getAmbassadorShowcaseListingCacheTtl()
+    {
+        return static::getAmbassadorShowcaseListing(true)['ttl'];
+    }
+
     public static function getUserListing(int $id = null, bool $only_public = true)
     {
         if (!isset($id)) {
@@ -534,6 +620,72 @@ class Sites
         }
 
         return $result;
+    }
+
+    public static function getUserAmbassadorShowcaseTotal(int $user_id = null): int
+    {
+        if (!isset($user_id)) {
+            $user_id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $params = [
+            'user_id' => $user_id,
+            'status' => static::STATUS_LIVE
+        ];
+
+        $OSCOM_Cache = new Cache('sites-user-NS-u' . $params['user_id'] . '-ambshowcasetotal');
+
+        if (($result = $OSCOM_Cache->get()) === false) {
+            $result = OSCOM::callDB('Sites\GetUserAmbassadorShowcaseTotal', $params, 'Site');
+
+            $OSCOM_Cache->set($result);
+        }
+
+        return $result;
+    }
+
+    public static function addAmbassadorShowcase(string $public_id, int $user_id = null): bool
+    {
+        if (!isset($user_id)) {
+            $user_id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $params = [
+            'site_id' => static::get($public_id, 'id'),
+            'user_id' => $user_id,
+            'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress()))
+        ];
+
+        if (OSCOM::callDB('Sites\SaveAmbassadorShowcase', $params, 'Site')) {
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-user-NS');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function deleteAmbassadorShowcase(string $public_id, int $user_id = null): bool
+    {
+        if (!isset($user_id)) {
+            $user_id = $_SESSION['Website']['Account']['id'];
+        }
+
+        $params = [
+            'site_id' => static::get($public_id, 'id'),
+            'user_id' => $user_id,
+            'ip_address' => sprintf('%u', ip2long(OSCOM::getIPAddress()))
+        ];
+
+        if (OSCOM::callDB('Sites\DeleteAmbassadorShowcase', $params, 'Site')) {
+            $OSCOM_Cache = new Cache();
+            $OSCOM_Cache->delete('sites-user-NS');
+
+            return true;
+        }
+
+        return false;
     }
 
     public static function logClick(string $public_id)

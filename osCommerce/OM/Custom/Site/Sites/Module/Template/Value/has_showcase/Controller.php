@@ -14,6 +14,6 @@ class Controller extends \osCommerce\OM\Core\Template\ValueAbstract
 {
     public static function execute(): bool
     {
-        return !empty(Sites::getShowcasePartners());
+        return !empty(Sites::getShowcasePartners()) || Sites::hasAmbassadorShowcase();
     }
 }

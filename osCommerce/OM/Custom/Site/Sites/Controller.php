@@ -130,6 +130,7 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
             'app' => $OSCOM_Template->getValue('current_site_application'),
             'loggedIn' => $OSCOM_Template->getValue('logged_in'),
             'isAdmin' => $OSCOM_Template->getValue('is_admin'),
+            'ambassadorLevel' => $OSCOM_Template->getValue('ambassador_level'),
             'categoryPath' => $OSCOM_Template->getValue('category_path_code'),
             'country' => $OSCOM_Template->getValue('country'),
             'secureToken' => md5($OSCOM_Template->getValue('public_token')),

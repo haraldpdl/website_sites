@@ -6,7 +6,14 @@
       {{partner_desc}}
     </div>
     <div class="mdl-card__actions mdl-card--border">
-      <a class="mdl-button" href="{{partner_url}}" target="_blank">{{lang_visit_partner_website}}</a>
+      <a class="mdl-button" href="{{partner_url}}" target="_blank">
+        {{#partner_button_title}}
+          {{partner_button_title}}
+        {{/partner_button_title}}
+        {{^partner_button_title}}
+          {{lang_visit_partner_website}}
+        {{/partner_button_title}}
+      </a>
     </div>
   </div>
 </div>

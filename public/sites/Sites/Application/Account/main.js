@@ -46,6 +46,8 @@ OSCOM.a.Account.showUserListing = function() {
         var listingData = {
             'sites': [],
             'lang_in_country': OSCOM.def.js_site_card_in_country,
+            'lang_showcase_add': OSCOM.def.js_site_card_showcase_add,
+            'lang_showcase_remove': OSCOM.def.js_site_card_showcase_remove,
             'lang_mod_remove': OSCOM.def.js_site_card_mod_remove,
             'lang_no_site_submissions': OSCOM.def.js_no_site_submissions
         };
@@ -73,6 +75,7 @@ OSCOM.a.Account.showUserListing = function() {
 
             var site = {
                 'id': OSCOM.a.Account.siteCounter,
+                'status_live': (s.status === '3') ? true : false,
                 'publicId': s.public_id,
                 'colorClass': 'mdl-color--' + OSCOM.getCardBackgroundColor(s.title),
                 'title': s.title,
@@ -84,7 +87,8 @@ OSCOM.a.Account.showUserListing = function() {
                 'category_name': s.category_name,
                 'country_url': OSCOM.generateUrl(false, $.extend({}, OSCOM.urlBaseReq, {'country': s.country_code})),
                 'country_name': s.country_name,
-                'total_likes': s.total_likes
+                'total_likes': s.total_likes,
+                'ambassador_showcase_flag': (s.ambassador_showcase_flag === '1') ? true : false
             };
 
             OSCOM.a.Account.siteCounter += 1;
@@ -93,6 +97,8 @@ OSCOM.a.Account.showUserListing = function() {
         });
 
         $('#liveSitesUserGrid').append(Mustache.render(template, listingData));
+
+        $('#liveSitesUserGrid > div[data-ambassador-showcase-flag="true"]').addClass('osc-showcase-card-border');
 
         componentHandler.upgradeElements($('#liveSitesUserGrid').get(0));
 

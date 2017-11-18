@@ -25,7 +25,7 @@ class Moderate
 
             if ($publicToken !== md5($_SESSION['Website']['public_token'])) {
                 $result['error'] = 300;
-            } elseif (!in_array($action, ['remove'])) {
+            } elseif (!in_array($action, ['ambShowcaseAdd', 'ambShowcaseRemove', 'remove'])) {
                 $result['error'] = 400;
             } elseif (empty($publicId) || !Sites::exists($publicId) || (Sites::get($publicId, 'user_id') != $_SESSION['Website']['Account']['id'])) {
                 $result['error'] = 100;
@@ -35,6 +35,24 @@ class Moderate
                 $status = false;
 
                 switch ($action) {
+                    case 'ambShowcaseRemove':
+                        if (Sites::deleteAmbassadorShowcase($publicId)) {
+                            $status = true;
+                        }
+
+                        break;
+
+                    case 'ambShowcaseAdd':
+                        if (Sites::getUserAmbassadorShowcaseTotal() < $_SESSION['Website']['Account']['amb_level']) {
+                            if (Sites::addAmbassadorShowcase($publicId)) {
+                                $status = true;
+                            }
+                        } else {
+                            $result['error'] = 100;
+                        }
+
+                        break;
+
                     case 'remove':
                         if (Sites::get($publicId, 'status') != Sites::STATUS_DISABLED) {
                             if (Sites::disable($publicId)) {
