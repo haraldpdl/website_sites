@@ -2,7 +2,7 @@ account_html_title = My Account | Live Sites | osCommerce
 
 breadcrumb_account = My Account
 
-ambassadors_queue_description = <p>Ambassadors can select sites to add and promote in the Showcase. The number of sites that can be promoted is matched to your Ambassador Level - for example, an Ambassador Level of 3 can select up to 3 site submissions to promote. New Showcase additions are placed in a queue to be processed - the next queue will be processed within :ttl_hours hours.</p>
+ambassadors_queue_description = <p>Ambassadors can select sites to add and promote in the Showcase. The number of sites that can be promoted is matched to your Ambassador Level - for example, an Ambassador Level of 3 can select up to 3 site submissions to promote. New Showcase additions are placed in a queue to be processed - the next queue will be processed within :ttl_hours.</p>
 
 redirect_cancel_return_to_site = or cancel and go back to the Live Sites website
 

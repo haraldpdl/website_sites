@@ -9,13 +9,12 @@
 namespace osCommerce\OM\Core\Site\Sites\Application\Account;
 
 use osCommerce\OM\Core\{
+    DateTime,
     OSCOM,
     Registry
 };
 
 use osCommerce\OM\Core\Site\Sites\Sites;
-
-use \Moment\Moment;
 
 class Controller extends \osCommerce\OM\Core\Site\Sites\ApplicationAbstract
 {
@@ -34,7 +33,7 @@ class Controller extends \osCommerce\OM\Core\Site\Sites\ApplicationAbstract
             $OSCOM_Template->setValue('user_name', $_SESSION['Website']['Account']['name']);
             $OSCOM_Template->setValue('user_ambassador_showcase_total', Sites::getUserAmbassadorShowcaseTotal());
 
-            $OSCOM_Template->setValue('ambassador_showcase_cache_ttl', ceil(abs((new Moment(Sites::getAmbassadorShowcaseListingCacheTtl()))->fromNow()->getHours())));
+            $OSCOM_Template->setValue('ambassador_showcase_cache_ttl', DateTime::getRelative(new \DateTime(Sites::getAmbassadorShowcaseListingCacheTtl())));
 
             $OSCOM_Template->addJavascriptBlock('OSCOM.a.Account.totalAmbassadorShowcaseSites = ' . json_encode($OSCOM_Template->getValue('user_ambassador_showcase_total')) . ';');
 
