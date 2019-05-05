@@ -1,0 +1,27 @@
+osCommerce
+
+osCommerce Live Site Submission Problem
+{value}live_site_title{value}
+{value}live_site_url{value}
+
+  {value}user_name{value},
+
+  thank you for submitting a site to the osCommerce Live Sites website at:
+
+  https://sites.oscommerce.com
+
+  Unfortunately it can not be added to the live sites listing due to the
+  following problem:
+
+  {value}live_site_error_message{value}
+
+  Please address the described issue and try submitting the site again. If
+  problems persist, please contact us by replying to this email and further
+  help will be provided.
+
+  Kind regards,
+
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
+
+This is an automatically generated email.

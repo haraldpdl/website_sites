@@ -1,0 +1,19 @@
+osCommerce
+
+osCommerce Live Site Submission
+{value}live_site_title{value}
+{value}live_site_url{value}
+
+  {value}user_name{value},
+
+  thank you for submitting a site to the osCommerce Live Sites website. The
+  submission is now live at:
+
+  https://sites.oscommerce.com
+
+  Kind regards,
+
+  osCommerce, https://www.oscommerce.com
+  Remscheider Str. 96, 42659 Solingen, Germany
+
+This is an automatically generated email.
