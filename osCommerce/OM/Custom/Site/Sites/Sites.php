@@ -790,4 +790,20 @@ class Sites
 
         return $result;
     }
+
+    public static function getPending(int $status, int $limit = null): array
+    {
+        if (!in_array($status, static::getStatuses())) {
+            return [];
+        }
+
+        $params = [
+            'status' => $status,
+            'limit' => $limit
+        ];
+
+        $result = OSCOM::callDB('Sites\GetPending', $params, 'Site');
+
+        return is_array($result) ? $result : [];
+    }
 }
