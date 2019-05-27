@@ -1,35 +1,23 @@
 <?php
 /**
- * osCommerce Sites
+ * osCommerce Sites Website
  *
- * @copyright (c) 2016 osCommerce; https://www.oscommerce.com
- * @license BSD; https://www.oscommerce.com/bsdlicense.txt
+ * @copyright (c) 2019 osCommerce; https://www.oscommerce.com
+ * @license MIT; https://www.oscommerce.com/license/mit.txt
  */
 
 namespace osCommerce\OM\Core\Site\Sites;
 
 use osCommerce\OM\Core\{
-    Cache,
     DataTree,
 //    Events,
     Hash,
     HTML,
     OSCOM,
-    PDO,
     Registry
 };
 
-use osCommerce\OM\Core\Site\Sites\{
-    MessageStack,
-    Sites
-};
-
-use osCommerce\OM\Core\Site\Website\{
-    Invision,
-    Language,
-    Session,
-    Template
-};
+use osCommerce\OM\Core\Site\Website\Invision;
 
 class Controller implements \osCommerce\OM\Core\SiteInterface
 {
@@ -37,10 +25,13 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
 
     public static function initialize()
     {
-        Registry::set('MessageStack', new MessageStack());
-        Registry::set('Cache', new Cache());
-        Registry::set('PDO', PDO::initialize());
-        Registry::set('Session', Session::load());
+        Registry::addAliases([
+            'Cache' => 'Core\Site\Website\Registry\Cache',
+            'Language' => 'Core\Site\Website\Registry\Language',
+            'PDO' => 'Core\Site\Website\Registry\PDO',
+            'Session' => 'Core\Site\Website\Registry\Session',
+            'Template' => 'Core\Site\Website\Registry\Template'
+        ]);
 
         $OSCOM_Session = Registry::get('Session');
         $OSCOM_Session->setLifeTime(3600);
@@ -69,9 +60,6 @@ class Controller implements \osCommerce\OM\Core\SiteInterface
                 }
             }
         }
-
-        Registry::set('Language', new Language());
-        Registry::set('Template', new Template());
 
         $OSCOM_Template = Registry::get('Template');
         $OSCOM_Template->set('Therese');
